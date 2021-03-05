@@ -642,3 +642,6 @@ header {
 }
 
 /* Luan */
+.center_div{
+    margin: 0 auto;
+}

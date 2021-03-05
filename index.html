@@ -540,17 +540,17 @@ URI     : https://colorlib.com
     <!-- // end .section -->
 
     <div class="light-bg py-5" id="contact">
-        <div class="container">
-            <div class="row">
-                <form id="form">
+        <div class="container ">
+            <div class="row ">
+                <form id="form" class="center_div">
                     <!-- Vertical -->
                     <div class="form-group">
                         <label for="HoTen">Họ tên</label>
-                        <input type="text" name="HoTen" id="HoTen" class="form-control" placeholder="Họ tên">
+                        <input type="text" name="HoTen" required id="HoTen" class="form-control" placeholder="Họ tên">
                         <label for="SL">Số lượng</label>
-                        <input type="text" id="SL" name="SL" class="form-control" placeholder="Số lượng">
+                        <input type="text" id="SL" required name="SL" class="form-control" placeholder="Số lượng">
                         <label for="SoDT">Số điện thoại</label>
-                        <input type="tel" id="SoDT" name="SoDT" class="form-control" placeholder="SoDT">
+                        <input type="tel" id="SoDT" required name="SoDT" class="form-control" placeholder="SoDT">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
@@ -588,7 +588,7 @@ URI     : https://colorlib.com
 
             $.ajax({
                 url: "https://docs.google.com/forms/d/1XQbu6LRRpgKn7E-zcIpJkwKfg9d06DAo5Cd63n8ieNQ/formResponse",
-                data: {"entry.275432823": field3, "entry.1712825234": field1, "entry.2063153591": field2},
+                data: {"entry.275432823":field1 , "entry.1712825234": field2, "entry.2063153591": field3},
                 type: "POST",
                 dataType: "xml",
                 statusCode: {
