@@ -1,112 +1,83 @@
-/*
+/*HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+HH				Overlay
+HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
+(function() {
+	var triggerBttn = document.getElementById( 'trigger-overlay' ),
+		overlay = document.querySelector( 'div.overlay' ),
+		closeBttn = overlay.querySelector( 'button.overlay-close' );
+		transEndEventNames = {
+			'WebkitTransition': 'webkitTransitionEnd',
+			'MozTransition': 'transitionend',
+			'OTransition': 'oTransitionEnd',
+			'msTransition': 'MSTransitionEnd',
+			'transition': 'transitionend'
+		}
+		transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+		support = { transitions : Modernizr.csstransitions };
 
-Style   : MobApp Script JS
-Version : 1.0
-Author  : Surjith S M
-URI     : https://surjithctly.in/
+	function toggleOverlay() {
+		if( classie.has( overlay, 'open' ) ) {
+			classie.remove( overlay, 'open' );
+			classie.add( overlay, 'close' );
+			var onEndTransitionFn = function( ev ) {
+				if( support.transitions ) {
+					if( ev.propertyName !== 'visibility' ) return;
+					this.removeEventListener( transEndEventName, onEndTransitionFn );
+				}
+				classie.remove( overlay, 'close' );
+			};
+			if( support.transitions ) {
+				overlay.addEventListener( transEndEventName, onEndTransitionFn );
+			}
+			else {
+				onEndTransitionFn();
+			}
+		}
+		else if( !classie.has( overlay, 'close' ) ) {
+			classie.add( overlay, 'open' );
+		}
+	}
 
-Copyright © All rights Reserved 
+	$(".overlay ul li a").click(function(){
+		toggleOverlay();
+	});
 
-*/
 
-$(function() {
-    "use strict";
+	triggerBttn.addEventListener( 'click', toggleOverlay );
+	closeBttn.addEventListener( 'click', toggleOverlay );
+})();
 
-    /*-----------------------------------
-     * FIXED  MENU - HEADER
-     *-----------------------------------*/
-    function menuscroll() {
-        var $navmenu = $('.nav-menu');
-        if ($(window).scrollTop() > 50) {
-            $navmenu.addClass('is-scrolling');
-        } else {
-            $navmenu.removeClass("is-scrolling");
-        }
-    }
-    menuscroll();
-    $(window).on('scroll', function() {
-        menuscroll();
+
+$(document).ready(function() {
+    $("#client-speech").owlCarousel({
+        autoPlay: 3000,
+        navigation : false, // Show next and prev buttons
+        slideSpeed : 700,
+        paginationSpeed : 1000,
+        singleItem:true
     });
-    /*-----------------------------------
-     * NAVBAR CLOSE ON CLICK
-     *-----------------------------------*/
+});
 
-    $('.navbar-nav > li:not(.dropdown) > a').on('click', function() {
-        $('.navbar-collapse').collapse('hide');
-    });
-    /* 
-     * NAVBAR TOGGLE BG
-     *-----------------*/
-    var siteNav = $('#navbar');
-    siteNav.on('show.bs.collapse', function(e) {
-        $(this).parents('.nav-menu').addClass('menu-is-open');
-    })
-    siteNav.on('hide.bs.collapse', function(e) {
-        $(this).parents('.nav-menu').removeClass('menu-is-open');
-    })
 
-    /*-----------------------------------
-     * ONE PAGE SCROLLING
-     *-----------------------------------*/
-    // Select all links with hashes
-    $('a[href*="#"]').not('[href="#"]').not('[href="#0"]').not('[data-toggle="tab"]').on('click', function(event) {
-        // On-page links
-        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-            // Figure out element to scroll to
-            var target = $(this.hash);
-            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-            // Does a scroll target exist?
-            if (target.length) {
-                // Only prevent default if animation is actually gonna happen
-                event.preventDefault();
-                $('html, body').animate({
-                    scrollTop: target.offset().top
-                }, 1000, function() {
-                    // Callback after animation
-                    // Must change focus!
-                    var $target = $(target);
-                    $target.focus();
-                    if ($target.is(":focus")) { // Checking if the target was focused
-                        return false;
-                    } else {
-                        $target.attr('tabindex', '-1'); // Adding tabindex for elements not focusable
-                        $target.focus(); // Set focus again
-                    };
-                });
-            }
-        }
-    });
-    /*-----------------------------------
-     * OWL CAROUSEL
-     *-----------------------------------*/
-    var $testimonialsDiv = $('.testimonials');
-    if ($testimonialsDiv.length && $.fn.owlCarousel) {
-        $testimonialsDiv.owlCarousel({
-            items: 1,
-            nav: true,
-            dots: false,
-            navText: ['<span class="ti-arrow-left"></span>', '<span class="ti-arrow-right"></span>']
-        });
-    }
 
-    var $galleryDiv = $('.img-gallery');
-    if ($galleryDiv.length && $.fn.owlCarousel) {
-        $galleryDiv.owlCarousel({
-            nav: false,
-            center: true,
-            loop: true,
-            autoplay: true,
-            dots: true,
-            navText: ['<span class="ti-arrow-left"></span>', '<span class="ti-arrow-right"></span>'],
-            responsive: {
-                0: {
-                    items: 1
-                },
-                768: {
-                    items: 3
-                }
-            }
-        });
-    }
 
-}); /* End Fn */
+ $('#screenshots > a').nivoLightbox({effect: 'fadeScale'});
+
+  var owl = $("#screenshots");
+ 
+  owl.owlCarousel({
+    autoPlay: false,
+    pagination: false,
+    stopOnHover: true,
+    items: 5,
+  });
+
+
+
+  // Custom Navigation Events
+  $(".next").click(function(){
+    owl.trigger('owl.next');
+  })
+  $(".prev").click(function(){
+    owl.trigger('owl.prev');
+  })
